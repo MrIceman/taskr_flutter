@@ -4,7 +4,7 @@ import 'package:taskr_flutter/data/TaskBoard.dart';
 abstract class Repository{
   List<Task> getTasks();
   List<TaskBoard> getTaskBoards();
-  void createTask(Task task);
-  void deleteTask(Task task);
-  void updateTask(Task task);
+  void createTaskBoard(TaskBoard board);
+  void deleteTaskBoard(TaskBoard board);
+  void updateTaskBoard(TaskBoard board);
 }

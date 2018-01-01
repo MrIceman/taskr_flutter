@@ -15,14 +15,16 @@ class TaskRepository extends Repository {
   }
 
   @override
-  void createTask(Task task) {
-    dataManager.execute(Converter.taskToJson(task), DataManager.ACTION_CREATE);
+  void createTaskBoard(TaskBoard board) {
+    dataManager.execute(
+        Converter.taskBoardToJson(board), DataManager.ACTION_CREATE);
   }
 
   @override
-  void deleteTask(Task task) {
+  void deleteTaskBoard(TaskBoard board) {
     // TODO: implement deleteTask
-    dataManager.execute(Converter.taskToJson(task), DataManager.ACTION_DELETE);
+    dataManager.execute(
+        Converter.taskBoardToJson(board), DataManager.ACTION_DELETE);
   }
 
   @override
@@ -38,7 +40,7 @@ class TaskRepository extends Repository {
   }
 
   @override
-  void updateTask(Task task) {
+  void updateTaskBoard(TaskBoard board) {
     // TODO: implement updateTask
   }
 }

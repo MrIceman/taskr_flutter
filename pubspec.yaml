@@ -4,6 +4,8 @@ description: A To-Do App allowing to manage a task list by multiple people (coup
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences: "^0.3.0"
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -5,12 +5,12 @@ import 'package:taskr_flutter/data/repository/Repository.dart';
 class LocalDatabase extends Repository{
 
   @override
-  void createTask(Task task) {
+  void createTaskBoard(TaskBoard board) {
     // TODO: implement createTask
   }
 
   @override
-  void deleteTask(Task task) {
+  void deleteTaskBoard(TaskBoard board) {
     // TODO: implement deleteTask
   }
 
@@ -27,7 +27,7 @@ class LocalDatabase extends Repository{
   }
 
   @override
-  void updateTask(Task task) {
+  void updateTaskBoard(TaskBoard board) {
     // TODO: implement updateTask
   }
 }

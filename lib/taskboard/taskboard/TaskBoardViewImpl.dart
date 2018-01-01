@@ -17,6 +17,7 @@ class TaskBoardView extends TaskBoardViewContract {
 
   @override
   void onTaskBoardCreated() {
+
   }
 
   @override

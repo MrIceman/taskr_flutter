@@ -10,18 +10,7 @@ class DataManager {
   static int ACTION_DELETE = 2;
 
   Future execute(String jsonTask, int action)async {
-    var hello = await saySomething();
     return null;
   }
 
-  Future makeRequest()
-  {
-    return null;
-  }
-
-   saySomething(){
-    return new Future((){
-
-    });
-  }
 }

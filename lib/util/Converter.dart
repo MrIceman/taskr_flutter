@@ -1,5 +1,6 @@
 import 'package:taskr_flutter/data/Task.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
+import 'package:taskr_flutter/data/TaskFactory.dart';
 
 class Converter {
   static String taskToJson(Task task) {
@@ -7,10 +8,18 @@ class Converter {
   }
 
   static TaskBoard jsonToTaskBoard(String taskboardJson) {
-    return new TaskBoard();
+    String secret;
+    return TaskFactory.createTaskBoard(secret);
   }
 
   static Task jsonToTask(String taskJson) {
-    return new Task(null, null, null, null);
+    String content, title;
+    bool localTask;
+
+    return TaskFactory.createTask(content, title, localTask: localTask);
+  }
+
+  static String taskBoardToJson(TaskBoard board) {
+    return "";
   }
 }
