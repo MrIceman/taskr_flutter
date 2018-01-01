@@ -8,11 +8,11 @@ import 'package:taskr_flutter/data/TaskBoard.dart';
 abstract class TaskBoardViewContract extends StatefulWidget {
   void displayTaskBoards(List<TaskBoard> data);
 
-  void onTaskBoardCreated();
+  void onTaskBoardCreated(bool result, {String msg});
 
-  void onTaskBoardDeleted();
+  void onTaskBoardDeleted(bool result, {String msg});
 
-  void onTaskBoardJoined();
+  void onTaskBoardJoined(bool result, {String msg});
 }
 
 abstract class TaskBoardPresenterContract {

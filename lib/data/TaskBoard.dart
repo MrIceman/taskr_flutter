@@ -1,12 +1,21 @@
 import 'package:taskr_flutter/data/Task.dart';
 
 class TaskBoard {
+  static final String ID = 'id';
+  static final String SECRET = 'secret';
+  static final String TASKS = 'tasks';
+  static final String TITLE = 'title';
+
   int _id;
-  String _secret;
+  String _secret, _title;
   List<Task> _tasks;
 
-  TaskBoard() {
-    id = new DateTime.now().millisecond;
+  //-1 is a default value
+  TaskBoard({int customId: -1}) {
+    if(customId != -1)
+      _id = new DateTime.now().millisecond;
+    else
+      this.id = customId;
     _tasks = new List<Task>();
   }
 
@@ -26,6 +35,12 @@ class TaskBoard {
 
   void addTask(Task task) {
     _tasks.add(task);
+  }
+
+  get title => _title;
+
+  set title(value) {
+    _title = value;
   }
 
 

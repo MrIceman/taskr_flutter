@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:taskr_flutter/data/Task.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/data/repository/Repository.dart';
@@ -6,11 +8,9 @@ import 'package:taskr_flutter/data/repository/remote/DataManager.dart';
 import 'package:taskr_flutter/data/repository/remote/TaskRepository.dart';
 
 
-/**
- * The RepositoryManager accesses the remote and local repository.
- * Each function accesses a layer and the local, remote and localAndRemote parameters determine
- * which layer to use.
- */
+/// The RepositoryManager accesses the remote and local repository.
+/// Each function accesses a layer and the local, remote and localAndRemote parameters determine
+/// which layer to use.
 class RepositoryManager {
   Repository local, remote;
 
@@ -19,14 +19,18 @@ class RepositoryManager {
     remote = new TaskRepository(new DataManager());
   }
 
-  void createTaskBoard(TaskBoard board,
+  Future<bool> createTaskBoard(TaskBoard board,
       {bool remote: false, bool local: false, bool localAndRemote: true}) {
-    // TODO: implement createTaskBoard
+    return new Future(() {
+
+    });
   }
 
-  void deleteTaskBoard(TaskBoard board,
+  Future<bool> deleteTaskBoard(int boardId,
       {bool remote: false, bool local: false, bool localAndRemote: true}) {
-    // TODO: implement deleteTaskBoard
+    return new Future(() {
+      //todo
+    });
   }
 
   List<TaskBoard> getTaskBoards({bool remote: true, bool local: false}) {
@@ -42,5 +46,10 @@ class RepositoryManager {
   void updateTaskBoard(TaskBoard board,
       {bool remote: true, bool local: false}) {
     // TODO: implement updateTaskBoard
+  }
+
+  TaskBoard getBoardById(int id,
+      {bool remote: true, bool local: false}) {
+    return new TaskBoard();
   }
 }

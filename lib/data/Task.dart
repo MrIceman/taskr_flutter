@@ -1,4 +1,10 @@
 class Task {
+  static final String ID = "task_id";
+  static final String TITLE = "task_title";
+  static final String CONTENT = "task_content";
+  static final String DATE = "task_date";
+  static final String LOCAL_TASK = "task_local";
+
   int _id;
   String _title, _content;
   DateTime _date;

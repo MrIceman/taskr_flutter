@@ -16,16 +16,16 @@ class TaskBoardView extends TaskBoardViewContract {
   }
 
   @override
-  void onTaskBoardCreated() {
+  void onTaskBoardCreated(bool result, {String msg}) {
 
   }
 
   @override
-  void onTaskBoardDeleted() {
+  void onTaskBoardDeleted(bool result, {String msg}) {
   }
 
   @override
-  void onTaskBoardJoined() {
+  void onTaskBoardJoined(bool result, {String msg}) {
   }
 
   Widget createContent() {
