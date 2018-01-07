@@ -12,6 +12,11 @@ class TaskrScaffold extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(title: new Text(title)),
       body: body,
+      floatingActionButton: new FloatingActionButton(
+          child: new Icon(Icons.add),
+          onPressed: () {
+            print('Pressed!');
+          }),
     );
   }
 }

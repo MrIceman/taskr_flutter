@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taskr_flutter/taskboard/taskboard/TaskBoardPresenterImpl.dart';
 
 class PreferenceManager {
   SharedPreferences _prefs;
@@ -16,6 +17,30 @@ class PreferenceManager {
       print('Stored Values');
     });
   }
+
+  Future<String> getUserName() async {
+    _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('username');
+  }
+
+  Future<Null> setUserName(String username) async {
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('username', username);
+  }
+
+  void isFirstLaunch(TaskBoardPresenter presenter) {
+    SharedPreferences.getInstance().then((prefs) {
+      var result = prefs.getBool('was_launched_already');
+      presenter.onFirstLaunch(result == null || result == false);
+    });
+  }
+
+  void onFirstLaunch() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('was_launched_already', true);
+    });
+  }
+
 
   Future<List<String>> getPublicKeys(String key) async {
     _prefs = await SharedPreferences.getInstance();

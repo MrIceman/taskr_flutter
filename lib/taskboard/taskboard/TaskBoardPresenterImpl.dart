@@ -54,4 +54,32 @@ class TaskBoardPresenter extends TaskBoardPresenterContract {
       _view.displayTaskBoards(result);
     });
   }
+
+  @override
+  void isFirstLaunch() {
+    _prefManager.isFirstLaunch(this);
+  }
+
+  @override
+  void setUsername(String username) {
+    _prefManager.onFirstLaunch();
+    _prefManager.setUserName(username);
+  }
+
+  @override
+  void onViewInitialized() {
+    getTaskBoards();
+    isFirstLaunch();
+  }
+
+  @override
+  void onFirstLaunch(bool result) {
+    if (result)
+      _view.onFirstLaunch();
+    else {
+      _prefManager.getUserName().then((value) {
+        _view.displayUsername(value);
+      });
+    }
+  }
 }

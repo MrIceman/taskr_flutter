@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:taskr_flutter/TaskrScaffold.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
@@ -17,10 +19,6 @@ class TaskBoardView extends TaskBoardViewContract {
   @override
   void displayTaskBoards(List<TaskBoard> data) {
     listState.updateData(data);
-  }
-
-  void getTaskBoards() {
-    _presenter.getTaskBoards();
   }
 
   @override
@@ -71,7 +69,7 @@ class TaskBoardView extends TaskBoardViewContract {
     for (TaskBoard board in data) {
       list.add(createTaskCard(
           board.title, board.description, board.createdOn.toIso8601String(),
-          "That's the first TaskBoard from the Backend"));
+          board.description));
     }
     return new Center(
         child: new ListView(
@@ -88,53 +86,122 @@ class TaskBoardView extends TaskBoardViewContract {
 
 
   Widget getEmptyContentScreen() {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-
-        new Text(
-            'You have no TaskBoard signed up yet. Would you like to create or join a new TaskBoard?'),
-        new Row(
-          children: <Widget>[
-            new FlatButton(onPressed: null, child: new Text('Create')),
-            new FlatButton(onPressed: null, child: new Text('Join'))
-          ],
-        )
-      ],
-    );
+    return new Container(
+      child: new Center(
+          child: new Card(child: new Padding(
+              padding: new EdgeInsets.all(16.0), child: new Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                  'You have no TaskBoard yet. Would you like to create or join a new TaskBoard?'),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  new FlatButton(onPressed: (() {
+                    print('Creating a Task');
+                  }), child: new Text('Create')),
+                  new FlatButton(onPressed: () {
+                    print('Joining a Task');
+                  }, child: new Text('Join'))
+                ],
+              )
+            ],
+          )))),
+      color: Colors.blue,);
   }
 
+  @override
+  Future<Null> showFirstLaunchDialog() async {
+    TextEditingController controller = new TextEditingController();
+    InputDecoration decoration = new InputDecoration(
+      icon: new Icon(Icons.account_box),
+      hintText: 'Enter your name here',
+      labelText: 'Your Name',
+    );
+
+    switch (
+    await showDialog<String>(
+      context: listState.context,
+      child:
+      new SimpleDialog(
+        contentPadding: new EdgeInsets.all(8.0),
+        title: new Text('What\'s your name?'),
+        children: <Widget>[
+          new Text(
+            "Welcome, since this is your first start we will need your Name, so your tasks can be identified by your mate(s)",
+            style: new TextStyle(
+                fontSize: 14.0, decorationColor: Colors.deepPurpleAccent),),
+          new TextField(
+              decoration: decoration,
+              controller: controller,
+              autocorrect: false
+          ),
+          new SimpleDialogOption(
+            onPressed: () {
+              if (controller.text.trim() != "")
+                Navigator.pop(listState.context, "ok");
+              else
+                return;
+            },
+            child: new Text('Okay'),
+          )
+        ],
+      ),
+    )) {
+      case "ok":
+        _presenter.setUsername(controller.text);
+        break;
+    };
+  }
+
+  @override
+  void onFirstLaunch() {
+    // TODO: implement onFirstLaunch
+    showFirstLaunchDialog();
+  }
+
+  @override
+  void displayUsername(String username) {
+    listState.updateUsername(username);
+  }
 }
 
 
 class _TaskBoardListState extends State<TaskBoardView> {
   List<TaskBoard> data;
-  bool data_updated = false;
+  bool dataUpdated = false;
+  String username;
 
   _TaskBoardListState(this.data);
 
   void updateData(List<TaskBoard> data) {
     this.setState(() {
       print('Updating setState with data');
-      data_updated = true;
+      dataUpdated = true;
       if (data.isEmpty)
         return;
       this.data.addAll(data);
     });
   }
 
+  void updateUsername(String username) {
+    setState(() {
+      this.username = username;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    widget.getTaskBoards();
+    widget._presenter.onViewInitialized();
   }
 
   @override
   Widget build(BuildContext context) {
     return new TaskrScaffold(
-        title: 'TaskBoard',
-        body: data_updated ? widget.getContent() : widget
+        title: username == null ? 'TaskBoards' : 'Hello, ' + username,
+        body: dataUpdated ? widget.getContent() : widget
             .getLoadingScreen());
   }
 

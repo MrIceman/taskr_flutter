@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
 
@@ -6,6 +8,8 @@ import 'package:taskr_flutter/data/TaskBoard.dart';
  * a list of TaskBoards
  */
 abstract class TaskBoardViewContract extends StatefulWidget {
+  void displayUsername(String username);
+
   void displayTaskBoards(List<TaskBoard> data);
 
   void onTaskBoardCreated(bool result, {String msg});
@@ -13,6 +17,10 @@ abstract class TaskBoardViewContract extends StatefulWidget {
   void onTaskBoardDeleted(bool result, {String msg});
 
   void onTaskBoardJoined(bool result, {String msg});
+
+  Future<Null> showFirstLaunchDialog() async {}
+
+  void onFirstLaunch();
 }
 
 abstract class TaskBoardPresenterContract {
@@ -26,4 +34,11 @@ abstract class TaskBoardPresenterContract {
 
   void getTaskBoards();
 
+  void isFirstLaunch();
+
+  void onFirstLaunch(bool result);
+
+  void setUsername(String username);
+
+  void onViewInitialized();
 }
