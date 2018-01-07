@@ -52,7 +52,6 @@ class TaskFactory {
     String secret, title, publicKey, description;
     int id, maxTasks;
     DateTime createdOn, lastUpdate;
-
     secret = json[TaskBoard.SECRET];
     title = json[TaskBoard.TITLE];
     publicKey = json[TaskBoard.PUBLIC_KEY];
@@ -60,8 +59,8 @@ class TaskFactory {
     publicKey = json[TaskBoard.PUBLIC_KEY];
     id = json[TaskBoard.ID];
     maxTasks = json[TaskBoard.MAX_TASKS];
-    createdOn = json[TaskBoard.CREATED_ON];
-    lastUpdate = json[TaskBoard.LAST_UPDATE];
+    createdOn = new DateTime.now();
+    lastUpdate = new DateTime.now();
 
     return createTaskBoard(secret, title, description, publicKey: publicKey,
         createdOn: createdOn,

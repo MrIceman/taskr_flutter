@@ -12,7 +12,8 @@ import 'package:taskr_flutter/data/repository/remote/TaskRepository.dart';
 /// Each function accesses a layer and the local, remote and localAndRemote parameters determine
 /// which layer to use.
 class RepositoryManager {
-  Repository local, remote;
+  Repository local;
+  TaskRepository remote;
 
   RepositoryManager() {
     local = new LocalDatabase();
@@ -33,9 +34,11 @@ class RepositoryManager {
     });
   }
 
-  List<TaskBoard> getTaskBoards({bool remote: true, bool local: false}) {
-    // TODO: implement getTaskBoards
-    return null;
+  Future<List<TaskBoard>> getTaskBoards(
+      {List<String> publicKeys, bool remote: true, bool local: false}) async {
+    List<TaskBoard> boards = await this.remote.getTaskBoards(
+        publicKeys: publicKeys);
+    return boards;
   }
 
   List<Task> getTasks({bool remote: true, bool local: false}) {

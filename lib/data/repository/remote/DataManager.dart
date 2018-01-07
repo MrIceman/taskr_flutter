@@ -3,17 +3,16 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
+import 'dart:io';
 import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/data/TaskFactory.dart';
 
 class DataManager {
-  final String _host = "http://127.0.0.1:5000";
+  final String _host = "http://10.0.2.2:5000";
   final String _getPath = '/task/taskboard/get/';
   static int ACTION_CREATE = 0;
   static int ACTION_UPDATE = 1;
   static int ACTION_DELETE = 2;
-
   DartManager() {
   }
 
@@ -30,7 +29,7 @@ class DataManager {
         body: JSON.encode(params))
         .then((response) {
       print('Received result for TaskBoard with public_id ' + publicKey + ' : ' + response.body);
-      json = JSON.decode(response.body);
+      json = response.body;
     });
 
     return TaskFactory.createTaskBoardFromJson(json);

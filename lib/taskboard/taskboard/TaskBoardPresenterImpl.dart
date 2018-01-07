@@ -49,8 +49,9 @@ class TaskBoardPresenter extends TaskBoardPresenterContract {
 
   @override
   void getTaskBoards() {
-    // TODO: implement getTaskBoards
-    //_repositoryManager.getTaskBoards();
-    _view.displayTaskBoards(new List<TaskBoard>());
+    _repositoryManager.getTaskBoards(publicKeys: ['Mindy']).then((result) {
+      print('Received a Result!');
+      _view.displayTaskBoards(result);
+    });
   }
 }
