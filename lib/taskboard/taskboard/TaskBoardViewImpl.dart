@@ -66,9 +66,12 @@ class TaskBoardView extends TaskBoardViewContract {
   Widget getContent() {
     if (data.isEmpty)
       return getEmptyContentScreen();
+    print('Data is not empty!');
     List<Widget> list = new List();
-    for (int i = 0; i < 3; i++) {
-      list.add(createTaskCard("Task $i", "Content $i", "000", "i" * i));
+    for (TaskBoard board in data) {
+      list.add(createTaskCard(
+          board.title, board.description, board.createdOn.toIso8601String(),
+          "That's the first TaskBoard from the Backend"));
     }
     return new Center(
         child: new ListView(
@@ -131,8 +134,7 @@ class _TaskBoardListState extends State<TaskBoardView> {
   Widget build(BuildContext context) {
     return new TaskrScaffold(
         title: 'TaskBoard',
-        body: data_updated ? new Container(
-            child: new Expanded(child: new Container(child: widget.getContent()))) : widget
+        body: data_updated ? widget.getContent() : widget
             .getLoadingScreen());
   }
 

@@ -1,14 +1,15 @@
 import 'package:taskr_flutter/data/repository/DataModel.dart';
 
 class Task extends DataModel {
-  static final String ID = "task_id";
-  static final String TITLE = "task_title";
-  static final String CONTENT = "task_content";
-  static final String DATE = "task_date";
-  static final String LOCAL_TASK = "task_local";
+  static final String ID = "id";
+  static final String TITLE = "title";
+  static final String CONTENT = "content";
+  static final String DATE = "tdate";
+  static final String AUTHOR = 'author';
+  static final String TASKBOARD_ID = 'taskboard_id';
 
   int _id;
-  String _title, _content;
+  String _title, _content, _author;
   DateTime _date;
   bool _localTask;
 
@@ -16,6 +17,13 @@ class Task extends DataModel {
     DateTime now = new DateTime.now();
     _id = now.millisecond;
     _date = now;
+  }
+
+
+  get author => _author;
+
+  set author(value) {
+    _author = value;
   }
 
   bool get localTask => _localTask;

@@ -8,11 +8,15 @@ import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/data/TaskFactory.dart';
 
 class DataManager {
+  //for iOS Emulator:
+  //final String _host = "http://localhost:5000";
+  //for Android Emulator
   final String _host = "http://10.0.2.2:5000";
   final String _getPath = '/task/taskboard/get/';
   static int ACTION_CREATE = 0;
   static int ACTION_UPDATE = 1;
   static int ACTION_DELETE = 2;
+
   DartManager() {
   }
 
@@ -28,7 +32,9 @@ class DataManager {
     await http.post(url, headers: {'Content-Type': 'Application/Json'},
         body: JSON.encode(params))
         .then((response) {
-      print('Received result for TaskBoard with public_id ' + publicKey + ' : ' + response.body);
+      print(
+          'Received result for TaskBoard with public_id ' + publicKey + ' : ' +
+              response.body);
       json = response.body;
     });
 

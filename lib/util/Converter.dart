@@ -11,8 +11,13 @@ class Converter {
     data[Task.CONTENT] = task.content;
     data[Task.DATE] = task.date;
     data[Task.TITLE] = task.title;
-    data[Task.LOCAL_TASK] = task.localTask;
     return JSON.encode(data);
+  }
+
+  static DateTime convertBackendDate(String date)
+  {
+    //todo
+    return new DateTime.now();
   }
 
   static String taskBoardToJson(TaskBoard board) {

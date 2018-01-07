@@ -27,23 +27,27 @@ class TaskFactory {
     return board;
   }
 
-  static Task createTask(String content, String title,
-      {bool localTask: false}) {
+  static Task createTask(String content, String title, author, {DateTime
+  date, int id: -1}) {
     Task t = new Task();
 
     t.title = title;
-    t.localTask = localTask;
+    t.content = content;
+    t.author = author;
+    if (id != -1)
+      t.id = -1;
     return t;
   }
 
   static Task createTaskFromJson(String json) {
     Map data = Converter.parseTaskJsonAsMap(json);
+    int id = data[Task.ID];
     String content = data[Task.CONTENT];
     String title = data[Task.TITLE];
-    bool localTask = data[Task.LOCAL_TASK];
-    DateTime date = new DateTime.fromMillisecondsSinceEpoch(data[Task.DATE]);
-    int id = data[Task.DATE];
-    return new Task();
+    String author = data[Task.AUTHOR];
+    DateTime date = Converter.convertBackendDate(data[Task.DATE]);
+
+    return createTask(content, title, author, date: date, id: id);
   }
 
   static TaskBoard createTaskBoardFromJson(String jsonString) {
@@ -52,6 +56,7 @@ class TaskFactory {
     String secret, title, publicKey, description;
     int id, maxTasks;
     DateTime createdOn, lastUpdate;
+
     secret = json[TaskBoard.SECRET];
     title = json[TaskBoard.TITLE];
     publicKey = json[TaskBoard.PUBLIC_KEY];
@@ -59,8 +64,8 @@ class TaskFactory {
     publicKey = json[TaskBoard.PUBLIC_KEY];
     id = json[TaskBoard.ID];
     maxTasks = json[TaskBoard.MAX_TASKS];
-    createdOn = new DateTime.now();
-    lastUpdate = new DateTime.now();
+    createdOn = Converter.convertBackendDate(json[TaskBoard.CREATED_ON]);
+    lastUpdate = Converter.convertBackendDate(json[TaskBoard.LAST_UPDATE]);
 
     return createTaskBoard(secret, title, description, publicKey: publicKey,
         createdOn: createdOn,
