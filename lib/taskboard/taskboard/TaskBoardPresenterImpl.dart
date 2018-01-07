@@ -1,14 +1,17 @@
 import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/data/TaskFactory.dart';
 import 'package:taskr_flutter/data/repository/RepositoryManager.dart';
+import 'package:taskr_flutter/data/repository/local/PreferenceManager.dart';
 import 'package:taskr_flutter/taskboard/taskboard/TaskBoardContract.dart';
 
 class TaskBoardPresenter extends TaskBoardPresenterContract {
   final TaskBoardViewContract _view;
   RepositoryManager _repositoryManager;
+  PreferenceManager _prefManager;
 
   TaskBoardPresenter(this._view) {
     _repositoryManager = new RepositoryManager();
+    _prefManager = new PreferenceManager();
   }
 
   @override
@@ -44,4 +47,10 @@ class TaskBoardPresenter extends TaskBoardPresenterContract {
     // TODO: implement updateTaskBoard
   }
 
+  @override
+  void getTaskBoards() {
+    // TODO: implement getTaskBoards
+    //_repositoryManager.getTaskBoards();
+    _view.displayTaskBoards(new List<TaskBoard>());
+  }
 }

@@ -24,4 +24,6 @@ abstract class TaskBoardPresenterContract {
 
   void updateTaskBoard(int id);
 
+  void getTaskBoards();
+
 }

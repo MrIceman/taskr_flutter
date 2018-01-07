@@ -1,4 +1,6 @@
-class Task {
+import 'package:taskr_flutter/data/repository/DataModel.dart';
+
+class Task extends DataModel {
   static final String ID = "task_id";
   static final String TITLE = "task_title";
   static final String CONTENT = "task_content";

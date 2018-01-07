@@ -4,15 +4,26 @@ import 'package:taskr_flutter/util/Converter.dart';
 
 class TaskFactory {
   static TaskBoard createTaskBoard(String secret, String title,
-      List<Task> tasks, {int id: -1}) {
+      String description,
+      {String publicKey: 'default', DateTime createdOn, DateTime lastUpdate,
+        int maxTasks, List<Task> tasks, int id: -1}) {
     TaskBoard board = new TaskBoard();
-    if (secret != null)
-      board.secret = secret;
-    board.id = id;
-    board.title = title;
-    for (Task t in tasks)
-      board.addTask(t);
+    board.secret = secret;
+    if (id != -1)
+      board.id = id;
+    if (createdOn != null)
+      board.createdOn = createdOn;
 
+    board.title = title;
+    board.publicKey = publicKey;
+    board.lastUpdate = lastUpdate;
+    board.maxTasks = maxTasks;
+    board.description = description;
+
+    if (tasks != null) {
+      for (Task t in tasks)
+        board.addTask(t);
+    }
     return board;
   }
 
@@ -35,18 +46,28 @@ class TaskFactory {
     return new Task();
   }
 
-  static TaskBoard createTaskBoardFromJson(String json) {
-    Map data = Converter.parseTaskBoardJsonAsMap(json);
-    String secret = data[TaskBoard.SECRET] ?? "";
-    String title = data[TaskBoard.TITLE] ?? "Unknown";
-    int id = data[TaskBoard.ID] ?? -1;
-    List<Task> taskList = new List();
-    //todo handle NP exception
-    for (String val in Converter.parseTaskJsonAsList(data[TaskBoard.TASKS])) {
-      Task task = createTaskFromJson(val);
-      taskList.add(task);
-    }
+  static TaskBoard createTaskBoardFromJson(String jsonString) {
+    Map json = Converter.parseTaskBoardJsonAsMap(jsonString);
 
-    return createTaskBoard(secret, title, taskList);
+    String secret, title, publicKey, description;
+    int id, maxTasks;
+    DateTime createdOn, lastUpdate;
+
+    secret = json[TaskBoard.SECRET];
+    title = json[TaskBoard.TITLE];
+    publicKey = json[TaskBoard.PUBLIC_KEY];
+    description = json[TaskBoard.DESCRIPTION];
+    publicKey = json[TaskBoard.PUBLIC_KEY];
+    id = json[TaskBoard.ID];
+    maxTasks = json[TaskBoard.MAX_TASKS];
+    createdOn = json[TaskBoard.CREATED_ON];
+    lastUpdate = json[TaskBoard.LAST_UPDATE];
+
+    return createTaskBoard(secret, title, description, publicKey: publicKey,
+        createdOn: createdOn,
+        lastUpdate: lastUpdate,
+        maxTasks: maxTasks,
+        tasks: null,
+        id: id);
   }
 }

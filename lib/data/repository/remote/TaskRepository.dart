@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:taskr_flutter/data/Task.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/data/repository/Repository.dart';
@@ -7,7 +9,6 @@ import 'package:taskr_flutter/util/Converter.dart';
 // This Class Holds Data from the Backend, e.g. all TaskBoards and its Tasks
 class TaskRepository extends Repository {
   List<TaskBoard> taskBoards;
-  final String _apiLink = "";
   DataManager dataManager;
 
   TaskRepository(DataManager dataManager) {
@@ -27,10 +28,15 @@ class TaskRepository extends Repository {
         Converter.taskBoardToJson(board), DataManager.ACTION_DELETE);
   }
 
-  @override
-  List<TaskBoard> getTaskBoards() {
-    // TODO: implement getTaskBoards
-    return new List();
+  Future<List<TaskBoard>> getTaskBoards({List<String> publicKeys}) async {
+    List<TaskBoard> results = new List();
+    if (publicKeys != null) {
+      for (String key in publicKeys) {
+        TaskBoard board = await dataManager.getTaskBoard(key);
+        results.add(board);
+      }
+    }
+    return results;
   }
 
   @override
