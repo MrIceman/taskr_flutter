@@ -21,6 +21,9 @@ abstract class TaskBoardViewContract extends StatefulWidget {
   Future<Null> showFirstLaunchDialog() async {}
 
   void onFirstLaunch();
+
+  void createTask(String title, String description,
+      {String secret, String publicId});
 }
 
 abstract class TaskBoardPresenterContract {
@@ -41,4 +44,14 @@ abstract class TaskBoardPresenterContract {
   void setUsername(String username);
 
   void onViewInitialized();
+}
+
+
+//Create Task View
+
+abstract class TaskBoardCreatePresenter {
+  Future<bool> createTaskBoard(Map<String, String> data);
+}
+
+abstract class TaskBoardCreateView extends StatelessWidget {
 }

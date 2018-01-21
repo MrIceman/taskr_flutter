@@ -1,12 +1,20 @@
+import 'dart:async';
+
 import 'package:taskr_flutter/data/Task.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
+import 'package:taskr_flutter/data/TaskFactory.dart';
 import 'package:taskr_flutter/data/repository/Repository.dart';
+import 'package:taskr_flutter/data/repository/remote/DataManager.dart';
+import 'package:taskr_flutter/util/Converter.dart';
+
 
 class LocalDatabase extends Repository {
+  DataManager _dataManager;
 
   @override
-  void createTaskBoard(TaskBoard board) {
-    // TODO: implement createTask
+  Future<bool> createTaskBoard(TaskBoard board) {
+    return _dataManager.execute(
+        Converter.taskBoardToJson(board), DataManager.ACTION_CREATE);
   }
 
   @override

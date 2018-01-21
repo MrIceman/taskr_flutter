@@ -17,6 +17,13 @@ class Converter {
   static DateTime convertBackendDate(String date)
   {
     //todo
+
+/**    String year = date.substring(12,16);
+    String month = date.substring(8,11);
+    String day = date.substring(5,7);
+    //Sun, 07 Jan 2018 15:28:11 GMT
+    String minute;
+    print('Found date ' + year + " " + month + " " + day);*/
     return new DateTime.now();
   }
 

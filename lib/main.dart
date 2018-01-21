@@ -12,6 +12,7 @@ class ToDoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
+        theme: new ThemeData(primarySwatch: Colors.blueGrey,),
         home: new TaskBoardView()
     );
   }

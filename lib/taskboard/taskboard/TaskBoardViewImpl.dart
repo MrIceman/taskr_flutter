@@ -5,6 +5,7 @@ import 'package:taskr_flutter/TaskrScaffold.dart';
 import 'package:taskr_flutter/data/TaskBoard.dart';
 import 'package:taskr_flutter/taskboard/taskboard/TaskBoardContract.dart';
 import 'package:taskr_flutter/taskboard/taskboard/TaskBoardPresenterImpl.dart';
+import 'package:taskr_flutter/taskboard/taskboard/widgets/CreateBoardWidget.dart';
 
 class TaskBoardView extends TaskBoardViewContract {
   TaskBoardPresenter _presenter;
@@ -37,7 +38,6 @@ class TaskBoardView extends TaskBoardViewContract {
   Widget getLoadingScreen() {
     return new Center(
       child: new Container(
-          color: Colors.blue,
           child: new Column(
             children: <Widget>[
               new Text('Please wait while we are setting up your TaskBoards.')
@@ -51,17 +51,46 @@ class TaskBoardView extends TaskBoardViewContract {
     return new Card(
       child: new Column(
         children: <Widget>[
-          new ListTile(
-              title: new Text(taskTitle,
-                  style: new TextStyle(fontWeight: FontWeight.w500)),
-              subtitle: new Text(participators)
-          )
+          new Container(
+            padding: new EdgeInsets.all(8.0),
+            height: 100.0,
+            child: new Row(
+              children: <Widget>[
+                new Column(crossAxisAlignment: CrossAxisAlignment.start
+                    , children: <Widget>[
+                      new Expanded(child: new Container(child:
+                      new Row(mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            new Text(
+                              "Today",
+                              style: new TextStyle(fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.end,),
+                          ])),),
+                      new Text(taskTitle,
+                          style: new TextStyle(fontWeight: FontWeight.w500)),
+                      new Divider(color: Colors.grey),
+                      new Text(participators)
+                    ])
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget getContent() {
+
+  Widget getContent({int action: -1}) {
+    /**
+     * Gets the Main Content
+     * if empty > create/join Taskboard Screen
+     * else > display list of cards
+     *
+     * if action is == 1 then a create taskboard screen will be shown
+     * if action is == 2 then a join taskboard will be shown
+     */
+    if (action == 1)
+      return new CreateBoardWidget(view: this,);
     if (data.isEmpty)
       return getEmptyContentScreen();
     print('Data is not empty!');
@@ -100,6 +129,7 @@ class TaskBoardView extends TaskBoardViewContract {
                 children: <Widget>[
                   new FlatButton(onPressed: (() {
                     print('Creating a Task');
+                    listState.updateUi(1);
                   }), child: new Text('Create')),
                   new FlatButton(onPressed: () {
                     print('Joining a Task');
@@ -107,8 +137,7 @@ class TaskBoardView extends TaskBoardViewContract {
                 ],
               )
             ],
-          )))),
-      color: Colors.blue,);
+          )))),);
   }
 
   @override
@@ -165,6 +194,12 @@ class TaskBoardView extends TaskBoardViewContract {
   void displayUsername(String username) {
     listState.updateUsername(username);
   }
+
+  @override
+  void createTask(String title, String description,
+      {String secret, String publicId}) {
+    // TODO: implement createTask
+  }
 }
 
 
@@ -172,6 +207,10 @@ class _TaskBoardListState extends State<TaskBoardView> {
   List<TaskBoard> data;
   bool dataUpdated = false;
   String username;
+  final int CREATE = 1;
+  final int JOIN = 3;
+  final int SHOW_ALL = 2;
+  int action = -1;
 
   _TaskBoardListState(this.data);
 
@@ -182,6 +221,12 @@ class _TaskBoardListState extends State<TaskBoardView> {
       if (data.isEmpty)
         return;
       this.data.addAll(data);
+    });
+  }
+
+  void updateUi(int action) {
+    setState(() {
+      this.action = action;
     });
   }
 
@@ -199,10 +244,15 @@ class _TaskBoardListState extends State<TaskBoardView> {
 
   @override
   Widget build(BuildContext context) {
-    return new TaskrScaffold(
+    return new WillPopScope(child:
+    new TaskrScaffold(
         title: username == null ? 'TaskBoards' : 'Hello, ' + username,
-        body: dataUpdated ? widget.getContent() : widget
-            .getLoadingScreen());
+        body: dataUpdated ? widget.getContent(action: action) : widget
+            .getLoadingScreen()),
+      onWillPop: () {
+        print('Pressed Back!');
+      },
+    );
   }
 
 }

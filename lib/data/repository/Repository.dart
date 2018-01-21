@@ -10,7 +10,7 @@ abstract class Repository extends DataObservable {
   List<DataObserver> observerList;
 
 
-  void createTaskBoard(TaskBoard board);
+  Future<bool> createTaskBoard(TaskBoard board);
 
   void deleteTaskBoard(TaskBoard board);
 

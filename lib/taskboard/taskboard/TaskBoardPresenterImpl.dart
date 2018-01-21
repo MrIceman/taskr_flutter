@@ -49,9 +49,13 @@ class TaskBoardPresenter extends TaskBoardPresenterContract {
 
   @override
   void getTaskBoards() {
-    _repositoryManager.getTaskBoards(publicKeys: ['Mindy']).then((result) {
-      print('Received a Result!');
-      _view.displayTaskBoards(result);
+    //    _repositoryManager.getTaskBoards(publicKeys: ['Mindy', 'Nowocode']).then((result) {
+    _prefManager.getPublicKeys().then((result) {
+      _repositoryManager.getTaskBoards(publicKeys: result).then((
+          resultToDisplay) {
+        print('Received a Result!');
+        _view.displayTaskBoards(resultToDisplay);
+      });
     });
   }
 

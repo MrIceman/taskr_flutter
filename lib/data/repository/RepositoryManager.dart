@@ -14,16 +14,23 @@ import 'package:taskr_flutter/data/repository/remote/TaskRepository.dart';
 class RepositoryManager {
   Repository local;
   TaskRepository remote;
+  static RepositoryManager _instance;
 
-  RepositoryManager() {
+  _RepositoryManager() {
     local = new LocalDatabase();
     remote = new TaskRepository(new DataManager());
+  }
+
+  static RepositoryManager getInstance() {
+    if (_instance == null)
+      _instance = new RepositoryManager();
+    return _instance;
   }
 
   Future<bool> createTaskBoard(TaskBoard board,
       {bool remote: false, bool local: false, bool localAndRemote: true}) {
     return new Future(() {
-
+      this.remote.createTaskBoard(board);
     });
   }
 

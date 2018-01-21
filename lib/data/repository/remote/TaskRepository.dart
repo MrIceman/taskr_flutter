@@ -16,9 +16,15 @@ class TaskRepository extends Repository {
   }
 
   @override
-  void createTaskBoard(TaskBoard board) {
-    dataManager.execute(
-        Converter.taskBoardToJson(board), DataManager.ACTION_CREATE);
+  Future<bool> createTaskBoard(TaskBoard board) async {
+    bool success;
+    await dataManager.execute(
+        Converter.taskBoardToJson(board), DataManager.ACTION_CREATE).then((
+        result) {
+      success = result;
+    });
+
+    return success;
   }
 
   @override

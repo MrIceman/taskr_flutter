@@ -9,10 +9,12 @@ import 'package:taskr_flutter/data/TaskFactory.dart';
 
 class DataManager {
   //for iOS Emulator:
-  //final String _host = "http://localhost:5000";
+  final String _host = "http://localhost:5000";
+
   //for Android Emulator
-  final String _host = "http://10.0.2.2:5000";
+  //final String _host = "http://10.0.2.2:5000";
   final String _getPath = '/task/taskboard/get/';
+  final String _boardCreatePath = '/task/taskboard/create/';
   static int ACTION_CREATE = 0;
   static int ACTION_UPDATE = 1;
   static int ACTION_DELETE = 2;
@@ -20,8 +22,16 @@ class DataManager {
   DartManager() {
   }
 
-  Future execute(String jsonTask, int action) async {
+  Future<bool> execute(String json, int action) async {
+    var url = _host + _boardCreatePath;
+    await http.post(url, headers: {'Content-Type': 'Application/Json'},
+        body: json)
+        .then((response) {
+      print(
+          'Received ' + response.body);
+    });
 
+    return true;
   }
 
   Future<TaskBoard> getTaskBoard(String publicKey) async {

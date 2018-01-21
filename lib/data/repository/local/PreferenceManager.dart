@@ -42,7 +42,7 @@ class PreferenceManager {
   }
 
 
-  Future<List<String>> getPublicKeys(String key) async {
+  Future<List<String>> getPublicKeys() async {
     _prefs = await SharedPreferences.getInstance();
     List<String> keys = _prefs.getStringList('public_keys');
     return keys;
